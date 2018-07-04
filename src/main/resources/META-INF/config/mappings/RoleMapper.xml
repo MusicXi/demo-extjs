@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace用于接口绑定-->
+<mapper namespace="com.myron.ims.dao.RoleDao">
+
+	<resultMap id="BaseResultMap" type="com.myron.ims.bean.Role">
+	    <id column="role_id" property="roleId" jdbcType="VARCHAR" /> 
+		<result column="organization_id" property="organizationId" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="role" property="role" jdbcType="VARCHAR" />
+		<result column="description" property="description" jdbcType="VARCHAR" />
+		<result column="available" property="available" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="DataResultMap" type="java.util.Map">
+	    <id column="role_id" property="roleId" jdbcType="VARCHAR" /> 
+		<result column="organization_id" property="organizationId" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="role" property="role" jdbcType="VARCHAR" />
+		<result column="description" property="description" jdbcType="VARCHAR" />
+		<result column="available" property="available" jdbcType="VARCHAR" />
+	</resultMap>	
+	
+	<sql id="Base_Column_List" >
+		t.role_id ,
+		t.organization_id ,
+		t.name ,
+		t.role ,
+		t.description ,
+		t.available 
+  	</sql>
+  	
+  	<select id="selectByPrimaryKey" resultMap="BaseResultMap">
+  		select 
+	    <include refid="Base_Column_List" />
+	    from sys_role t 
+	    where t.role_id = #{roleId}
+  	</select>
+  	
+  	<select id="selectListByUserId" resultMap="BaseResultMap">
+  		select 
+	    <include refid="Base_Column_List" />
+	    from sys_role t
+	    join sys_user_role a on t.role_id=a.role_id
+	    join sys_user b on a.user_id=b.user_id 
+	    where b.user_id = #{userId}
+  	</select>
+  	
+  	<select id="selectList" resultMap="BaseResultMap">
+  		select 
+	    <include refid="Base_Column_List" />
+	    from sys_role t
+  	</select>
+  	
+  	<select id="selectMapList" resultMap="DataResultMap">
+  		select 
+	    <include refid="Base_Column_List" />
+	    from sys_role t
+  	</select>
+  	
+  	<select id="selectMapListByPage" resultMap="DataResultMap">
+  		select 
+	    <include refid="Base_Column_List" />
+	    from sys_role t
+  	</select>
+	
+	<insert id="insert" parameterType="com.myron.ims.bean.Role" >
+	    insert into sys_role (
+			role_id,
+			organization_id,
+			name,
+			role,
+			description,
+			available
+	      )values (
+	      	#{roleId,jdbcType=VARCHAR},
+	      	#{organizationId,jdbcType=VARCHAR},
+	      	#{name,jdbcType=VARCHAR},
+	      	#{role,jdbcType=VARCHAR},
+	      	#{description,jdbcType=VARCHAR},
+	      	#{available,jdbcType=VARCHAR}
+	      )
+  	</insert>
+  	
+  	<insert id="insertSelective" parameterType="com.myron.ims.bean.Role" >
+	    insert into sys_role
+	    <trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="roleId != null">
+				role_id,
+			</if>
+			<if test="organizationId != null">
+				organization_id,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="role != null">
+				role,
+			</if>
+			<if test="description != null">
+				description,
+			</if>
+			<if test="available != null">
+				available,
+			</if>
+	    </trim>
+	    <trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="roleId != null">
+				#{roleId,jdbcType=VARCHAR},
+			</if>
+			<if test="organizationId != null">
+				#{organizationId,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="role != null">
+				#{role,jdbcType=VARCHAR},
+			</if>
+			<if test="description != null">
+				#{description,jdbcType=VARCHAR},
+			</if>
+			<if test="available != null">
+				#{available,jdbcType=VARCHAR},
+			</if>
+	    </trim>
+    </insert>
+  	
+  	<update id="updateByPrimaryKey" parameterType="com.myron.ims.bean.Role">
+		update sys_role set
+			organization_id=#{organizationId},	
+			name=#{name},	
+			role=#{role},	
+			description=#{description},	
+			available=#{available}	
+			where role_id=#{roleId}
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.myron.ims.bean.Role">
+		update sys_role 
+		<set>
+			<if test="organizationId != null">
+				organization_id=#{organizationId},
+			</if>
+			<if test="name != null">
+				name=#{name},
+			</if>
+			<if test="role != null">
+				role=#{role},
+			</if>
+			<if test="description != null">
+				description=#{description},
+			</if>
+			<if test="available != null">
+				available=#{available},
+			</if>
+		</set>
+			where role_id=#{roleId}
+	</update>
+	
+	<delete id="deleteByPrimaryKey">
+	    delete from sys_role where role_id= #{roleId}
+	</delete>
+  	
+</mapper>

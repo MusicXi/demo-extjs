@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace用于接口绑定-->
+<mapper namespace="com.myron.ims.dao.UserRoleDao">
+
+	<resultMap id="BaseResultMap" type="com.myron.ims.bean.UserRole">
+	    <id column="user_id" property="userId" jdbcType="VARCHAR" /> 
+	    <id column="role_id" property="roleId" jdbcType="VARCHAR" /> 
+	</resultMap>
+	
+	<resultMap id="DataResultMap" type="java.util.Map">
+	    <id column="user_id" property="userId" jdbcType="VARCHAR" /> 
+	    <id column="role_id" property="roleId" jdbcType="VARCHAR" /> 
+	</resultMap>	
+	
+	<sql id="Base_Column_List" >
+		t.user_id ,
+		t.role_id 
+  	</sql>
+  	
+	<insert id="insert" parameterType="com.myron.ims.bean.UserRole" >
+	    insert into sys_user_role (
+			user_id,
+			role_id
+	      )values (
+	      	#{userId,jdbcType=VARCHAR},
+	      	#{roleId,jdbcType=VARCHAR}
+	      )
+  	</insert>
+  	
+  	<insert id="insertSelective" parameterType="com.myron.ims.bean.UserRole" >
+	    insert into sys_user_role
+	    <trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="userId != null">
+				user_id,
+			</if>
+			<if test="roleId != null">
+				role_id,
+			</if>
+	    </trim>
+	    <trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="userId != null">
+				#{userId,jdbcType=VARCHAR},
+			</if>
+			<if test="roleId != null">
+				#{roleId,jdbcType=VARCHAR},
+			</if>
+	    </trim>
+    </insert>
+    
+    <delete id="deleteByPrimaryKey">
+	    delete from sys_user_role where user_id= #{userId} and role_id= #{roleId}
+	</delete>
+    <delete id="deleteByUserId">
+	    delete from sys_user_role where user_id= #{userId}
+	</delete>
+    <delete id="deleteByRoleId">
+	    delete from sys_user_role where role_id= #{roleId}
+	</delete>
+  	
+
+
+  	
+</mapper>

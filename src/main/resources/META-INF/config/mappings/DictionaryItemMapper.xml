@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace用于接口绑定-->
+<mapper namespace="com.myron.ims.dao.DictionaryItemDao">
+
+	<resultMap id="BaseResultMap" type="com.myron.ims.bean.DictionaryItem">
+	    <id column="dictionary_item_id" property="dictionaryItemId" jdbcType="VARCHAR" /> 
+		<result column="dictionary_id" property="dictionaryId" jdbcType="VARCHAR" />
+		<result column="value" property="value" jdbcType="VARCHAR" />
+		<result column="text" property="text" jdbcType="VARCHAR" />
+		<result column="parent_id" property="parentId" jdbcType="VARCHAR" />
+		<result column="grade" property="grade" jdbcType="INTEGER" />
+		<result column="sort" property="sort" jdbcType="INTEGER" />
+	</resultMap>
+	
+	<resultMap id="DataResultMap" type="java.util.Map">
+	    <id column="dictionary_item_id" property="dictionaryItemId" jdbcType="VARCHAR" /> 
+		<result column="dictionary_id" property="dictionaryId" jdbcType="VARCHAR" />
+		<result column="value" property="value" jdbcType="VARCHAR" />
+		<result column="text" property="text" jdbcType="VARCHAR" />
+		<result column="parent_id" property="parentId" jdbcType="VARCHAR" />
+		<result column="grade" property="grade" jdbcType="INTEGER" />
+		<result column="sort" property="sort" jdbcType="INTEGER" />
+	</resultMap>	
+	
+	<sql id="Base_Column_List" >
+		t.dictionary_item_id ,
+		t.dictionary_id ,
+		t.value ,
+		t.text ,
+		t.parent_id ,
+		t.grade ,
+		t.sort 
+  	</sql>
+  	
+  	<select id="selectByPrimaryKey" resultMap="BaseResultMap">
+  		select 
+	    <include refid="Base_Column_List" />
+	    from sys_dictionary_item t 
+	    where t.dictionary_item_id = #{dictionaryItemId}
+  	</select>
+  	
+  	<select id="selectMapList" resultMap="DataResultMap">
+  		select 
+	    <include refid="Base_Column_List" />
+	    from sys_dictionary_item t
+  	</select>
+  	
+  	<select id="selectMapListByPage" resultMap="DataResultMap">
+  		select 
+	    <include refid="Base_Column_List" />
+	    from sys_dictionary_item t
+  	</select>
+	
+	<insert id="insert" parameterType="com.myron.ims.bean.DictionaryItem" >
+	    insert into sys_dictionary_item (
+			dictionary_item_id,
+			dictionary_id,
+			value,
+			text,
+			parent_id,
+			grade,
+			sort
+	      )values (
+	      	#{dictionaryItemId,jdbcType=VARCHAR},
+	      	#{dictionaryId,jdbcType=VARCHAR},
+	      	#{value,jdbcType=VARCHAR},
+	      	#{text,jdbcType=VARCHAR},
+	      	#{parentId,jdbcType=VARCHAR},
+	      	#{grade,jdbcType=INTEGER},
+	      	#{sort,jdbcType=INTEGER}
+	      )
+  	</insert>
+  	
+  	<insert id="insertSelective" parameterType="com.myron.ims.bean.DictionaryItem" >
+	    insert into sys_dictionary_item
+	    <trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="dictionaryItemId != null">
+				dictionary_item_id,
+			</if>
+			<if test="dictionaryId != null">
+				dictionary_id,
+			</if>
+			<if test="value != null">
+				value,
+			</if>
+			<if test="text != null">
+				text,
+			</if>
+			<if test="parentId != null">
+				parent_id,
+			</if>
+			<if test="grade != null">
+				grade,
+			</if>
+			<if test="sort != null">
+				sort,
+			</if>
+	    </trim>
+	    <trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="dictionaryItemId != null">
+				#{dictionaryItemId,jdbcType=VARCHAR},
+			</if>
+			<if test="dictionaryId != null">
+				#{dictionaryId,jdbcType=VARCHAR},
+			</if>
+			<if test="value != null">
+				#{value,jdbcType=VARCHAR},
+			</if>
+			<if test="text != null">
+				#{text,jdbcType=VARCHAR},
+			</if>
+			<if test="parentId != null">
+				#{parentId,jdbcType=VARCHAR},
+			</if>
+			<if test="grade != null">
+				#{grade,jdbcType=INTEGER},
+			</if>
+			<if test="sort != null">
+				#{sort,jdbcType=INTEGER},
+			</if>
+	    </trim>
+    </insert>
+  	
+  	<update id="updateByPrimaryKey" parameterType="com.myron.ims.bean.DictionaryItem">
+		update sys_dictionary_item set
+			dictionary_id=#{dictionaryId},	
+			value=#{value},	
+			text=#{text},	
+			parent_id=#{parentId},	
+			grade=#{grade},	
+			sort=#{sort}	
+			where dictionary_item_id=#{dictionaryItemId}
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.myron.ims.bean.DictionaryItem">
+		update sys_dictionary_item 
+		<set>
+			<if test="dictionaryId != null">
+				dictionary_id=#{dictionaryId},
+			</if>
+			<if test="value != null">
+				value=#{value},
+			</if>
+			<if test="text != null">
+				text=#{text},
+			</if>
+			<if test="parentId != null">
+				parent_id=#{parentId},
+			</if>
+			<if test="grade != null">
+				grade=#{grade},
+			</if>
+			<if test="sort != null">
+				sort=#{sort},
+			</if>
+		</set>
+			where dictionary_item_id=#{dictionaryItemId}
+	</update>
+	
+	<delete id="deleteByPrimaryKey">
+	    delete from sys_dictionary_item where dictionary_item_id= #{dictionaryItemId}
+	</delete>
+  	
+</mapper>

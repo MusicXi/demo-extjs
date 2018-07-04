@@ -1,0 +1,767 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace用于接口绑定-->
+<mapper namespace="com.myron.ims.dao.MetaTagsDimDao">
+
+	<resultMap id="BaseResultMap" type="com.myron.ims.bean.MetaTagsDim">
+	    <id column="id" property="id" jdbcType="INTEGER" /> 
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="type" property="type" jdbcType="INTEGER" />
+		<result column="parent_id" property="parentId" jdbcType="INTEGER" />
+		<result column="arrparent_id" property="arrparentId" jdbcType="VARCHAR" />
+		<result column="value" property="value" jdbcType="VARCHAR" />
+		<result column="description" property="description" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="release_time" property="releaseTime" jdbcType="TIMESTAMP" />
+		<result column="trash_time" property="trashTime" jdbcType="TIMESTAMP" />
+		<result column="demand" property="demand" jdbcType="VARCHAR" />
+		<result column="is_val_multi" property="isValMulti" jdbcType="INTEGER" />
+		<result column="is_val_enum" property="isValEnum" jdbcType="INTEGER" />
+		<result column="val_type" property="valType" jdbcType="VARCHAR" />
+		<result column="val_weight_type" property="valWeightType" jdbcType="INTEGER" />
+		<result column="val_weight_norm" property="valWeightNorm" jdbcType="INTEGER" />
+		<result column="freq" property="freq" jdbcType="INTEGER" />
+		<result column="lifecycle" property="lifecycle" jdbcType="INTEGER" />
+		<result column="rule_desc" property="ruleDesc" jdbcType="VARCHAR" />
+		<result column="domain" property="domain" jdbcType="VARCHAR" />
+		<result column="field" property="field" jdbcType="VARCHAR" />
+		<result column="data_flow" property="dataFlow" jdbcType="VARCHAR" />
+		<result column="data_node" property="dataNode" jdbcType="VARCHAR" />
+		<result column="committer" property="committer" jdbcType="VARCHAR" />
+		<result column="is_index" property="isIndex" jdbcType="INTEGER" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="create_by" property="createBy" jdbcType="INTEGER" />
+		<result column="modified_time" property="modifiedTime" jdbcType="TIMESTAMP" />
+		<result column="modified_by" property="modifiedBy" jdbcType="INTEGER" />
+	</resultMap>
+	
+	<resultMap id="DataResultMap" type="java.util.Map">
+	    <id column="id" property="id" jdbcType="INTEGER" /> 
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="type" property="type" jdbcType="INTEGER" />
+		<result column="parent_id" property="parentId" jdbcType="INTEGER" />
+		<result column="arrparent_id" property="arrparentId" jdbcType="VARCHAR" />
+		<result column="value" property="value" jdbcType="VARCHAR" />
+		<result column="description" property="description" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="release_time" property="releaseTime" jdbcType="TIMESTAMP" />
+		<result column="trash_time" property="trashTime" jdbcType="TIMESTAMP" />
+		<result column="demand" property="demand" jdbcType="VARCHAR" />
+		<result column="is_val_multi" property="isValMulti" jdbcType="INTEGER" />
+		<result column="is_val_enum" property="isValEnum" jdbcType="INTEGER" />
+		<result column="val_type" property="valType" jdbcType="VARCHAR" />
+		<result column="val_weight_type" property="valWeightType" jdbcType="INTEGER" />
+		<result column="val_weight_norm" property="valWeightNorm" jdbcType="INTEGER" />
+		<result column="freq" property="freq" jdbcType="INTEGER" />
+		<result column="lifecycle" property="lifecycle" jdbcType="INTEGER" />
+		<result column="rule_desc" property="ruleDesc" jdbcType="VARCHAR" />
+		<result column="domain" property="domain" jdbcType="VARCHAR" />
+		<result column="field" property="field" jdbcType="VARCHAR" />
+		<result column="data_flow" property="dataFlow" jdbcType="VARCHAR" />
+		<result column="data_node" property="dataNode" jdbcType="VARCHAR" />
+		<result column="committer" property="committer" jdbcType="VARCHAR" />
+		<result column="is_index" property="isIndex" jdbcType="INTEGER" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="create_by" property="createBy" jdbcType="INTEGER" />
+		<result column="modified_time" property="modifiedTime" jdbcType="TIMESTAMP" />
+		<result column="modified_by" property="modifiedBy" jdbcType="INTEGER" />
+	</resultMap>	
+	
+	<sql id="Base_Column_List" >
+		t.id ,
+		t.name ,
+		t.type ,
+		t.parent_id ,
+		t.arrparent_id ,
+		t.value ,
+		t.description ,
+		t.status ,
+		t.release_time ,
+		t.trash_time ,
+		t.demand ,
+		t.is_val_multi ,
+		t.is_val_enum ,
+		t.val_type ,
+		t.val_weight_type ,
+		t.val_weight_norm ,
+		t.freq ,
+		t.lifecycle ,
+		t.rule_desc ,
+		t.domain ,
+		t.field ,
+		t.data_flow ,
+		t.data_node ,
+		t.committer ,
+		t.is_index ,
+		t.create_time ,
+		t.create_by ,
+		t.modified_time ,
+		t.modified_by 
+  	</sql>
+  	
+  	<select id="selectByPrimaryKey" resultMap="BaseResultMap">
+  		select 
+	    <include refid="Base_Column_List" />
+	    from meta_tags_dim t 
+	    where t.id = #{id}
+  	</select>
+  	
+  	<select id="getChildList" resultMap="BaseResultMap">
+  		select 
+	    <include refid="Base_Column_List" />
+	    from meta_tags_dim t 
+	    where t.parent_id = #{id}
+  	</select>
+  	
+  	<select id="selectList" resultMap="BaseResultMap">
+  		select 
+	    <include refid="Base_Column_List" />
+	    from meta_tags_dim t
+  	</select>
+  	
+  	<select id="selectListByPage" resultMap="BaseResultMap">
+  		select 
+	    <include refid="Base_Column_List" />
+	    from meta_tags_dim t
+	    <where>
+	    	<if test="metaTagsDim.id != null ">
+	    	 	and t.id =#{metaTagsDim.id}
+	    	</if>
+	    	<if test="metaTagsDim.name != null and metaTagsDim.name !='' ">
+	    	 	and t.name =#{metaTagsDim.name}
+	    	</if>
+	    	<if test="metaTagsDim.type != null ">
+	    	 	and t.type =#{metaTagsDim.type}
+	    	</if>
+	    	<if test="metaTagsDim.parentId != null ">
+	    	 	and t.parent_id =#{metaTagsDim.parentId}
+	    	</if>
+	    	<if test="metaTagsDim.arrparentId != null and metaTagsDim.arrparentId !='' ">
+	    	 	and t.arrparent_id =#{metaTagsDim.arrparentId}
+	    	</if>
+	    	<if test="metaTagsDim.value != null and metaTagsDim.value !='' ">
+	    	 	and t.value =#{metaTagsDim.value}
+	    	</if>
+	    	<if test="metaTagsDim.description != null and metaTagsDim.description !='' ">
+	    	 	and t.description =#{metaTagsDim.description}
+	    	</if>
+	    	<if test="metaTagsDim.status != null ">
+	    	 	and t.status =#{metaTagsDim.status}
+	    	</if>
+	    	<if test="metaTagsDim.releaseTime != null ">
+	    	 	and t.release_time =#{metaTagsDim.releaseTime}
+	    	</if>
+	    	<if test="metaTagsDim.trashTime != null ">
+	    	 	and t.trash_time =#{metaTagsDim.trashTime}
+	    	</if>
+	    	<if test="metaTagsDim.demand != null and metaTagsDim.demand !='' ">
+	    	 	and t.demand =#{metaTagsDim.demand}
+	    	</if>
+	    	<if test="metaTagsDim.isValMulti != null ">
+	    	 	and t.is_val_multi =#{metaTagsDim.isValMulti}
+	    	</if>
+	    	<if test="metaTagsDim.isValEnum != null ">
+	    	 	and t.is_val_enum =#{metaTagsDim.isValEnum}
+	    	</if>
+	    	<if test="metaTagsDim.valType != null and metaTagsDim.valType !='' ">
+	    	 	and t.val_type =#{metaTagsDim.valType}
+	    	</if>
+	    	<if test="metaTagsDim.valWeightType != null ">
+	    	 	and t.val_weight_type =#{metaTagsDim.valWeightType}
+	    	</if>
+	    	<if test="metaTagsDim.valWeightNorm != null ">
+	    	 	and t.val_weight_norm =#{metaTagsDim.valWeightNorm}
+	    	</if>
+	    	<if test="metaTagsDim.freq != null ">
+	    	 	and t.freq =#{metaTagsDim.freq}
+	    	</if>
+	    	<if test="metaTagsDim.lifecycle != null ">
+	    	 	and t.lifecycle =#{metaTagsDim.lifecycle}
+	    	</if>
+	    	<if test="metaTagsDim.ruleDesc != null and metaTagsDim.ruleDesc !='' ">
+	    	 	and t.rule_desc =#{metaTagsDim.ruleDesc}
+	    	</if>
+	    	<if test="metaTagsDim.domain != null and metaTagsDim.domain !='' ">
+	    	 	and t.domain =#{metaTagsDim.domain}
+	    	</if>
+	    	<if test="metaTagsDim.field != null and metaTagsDim.field !='' ">
+	    	 	and t.field =#{metaTagsDim.field}
+	    	</if>
+	    	<if test="metaTagsDim.dataFlow != null and metaTagsDim.dataFlow !='' ">
+	    	 	and t.data_flow =#{metaTagsDim.dataFlow}
+	    	</if>
+	    	<if test="metaTagsDim.dataNode != null and metaTagsDim.dataNode !='' ">
+	    	 	and t.data_node =#{metaTagsDim.dataNode}
+	    	</if>
+	    	<if test="metaTagsDim.committer != null and metaTagsDim.committer !='' ">
+	    	 	and t.committer =#{metaTagsDim.committer}
+	    	</if>
+	    	<if test="metaTagsDim.isIndex != null ">
+	    	 	and t.is_index =#{metaTagsDim.isIndex}
+	    	</if>
+	    	<if test="metaTagsDim.createTime != null ">
+	    	 	and t.create_time =#{metaTagsDim.createTime}
+	    	</if>
+	    	<if test="metaTagsDim.createBy != null ">
+	    	 	and t.create_by =#{metaTagsDim.createBy}
+	    	</if>
+	    	<if test="metaTagsDim.modifiedTime != null ">
+	    	 	and t.modified_time =#{metaTagsDim.modifiedTime}
+	    	</if>
+	    	<if test="metaTagsDim.modifiedBy != null ">
+	    	 	and t.modified_by =#{metaTagsDim.modifiedBy}
+	    	</if>
+	    </where>
+	    <if test="page.sortName != null and page.sortOrder!=null">
+    	order by ${page.sortName} ${page.sortOrder} 
+		</if>
+  	</select>
+  	
+  	<select id="selectMapList" resultMap="DataResultMap">
+  		select 
+	    <include refid="Base_Column_List" />
+	    from meta_tags_dim t
+  	</select>
+  	
+  	<select id="selectMapListByPage" resultMap="DataResultMap">
+  		select 
+	    <include refid="Base_Column_List" />
+	    from meta_tags_dim t
+	    <where>
+	    	<if test="metaTagsDim.id != null ">
+	    	 	and t.id =#{metaTagsDim.id}
+	    	</if>
+	    	<if test="metaTagsDim.name != null and metaTagsDim.name !='' ">
+	    	 	and t.name =#{metaTagsDim.name}
+	    	</if>
+	    	<if test="metaTagsDim.type != null ">
+	    	 	and t.type =#{metaTagsDim.type}
+	    	</if>
+	    	<if test="metaTagsDim.parentId != null ">
+	    	 	and t.parent_id =#{metaTagsDim.parentId}
+	    	</if>
+	    	<if test="metaTagsDim.arrparentId != null and metaTagsDim.arrparentId !='' ">
+	    	 	and t.arrparent_id =#{metaTagsDim.arrparentId}
+	    	</if>
+	    	<if test="metaTagsDim.value != null and metaTagsDim.value !='' ">
+	    	 	and t.value =#{metaTagsDim.value}
+	    	</if>
+	    	<if test="metaTagsDim.description != null and metaTagsDim.description !='' ">
+	    	 	and t.description =#{metaTagsDim.description}
+	    	</if>
+	    	<if test="metaTagsDim.status != null ">
+	    	 	and t.status =#{metaTagsDim.status}
+	    	</if>
+	    	<if test="metaTagsDim.releaseTime != null ">
+	    	 	and t.release_time =#{metaTagsDim.releaseTime}
+	    	</if>
+	    	<if test="metaTagsDim.trashTime != null ">
+	    	 	and t.trash_time =#{metaTagsDim.trashTime}
+	    	</if>
+	    	<if test="metaTagsDim.demand != null and metaTagsDim.demand !='' ">
+	    	 	and t.demand =#{metaTagsDim.demand}
+	    	</if>
+	    	<if test="metaTagsDim.isValMulti != null ">
+	    	 	and t.is_val_multi =#{metaTagsDim.isValMulti}
+	    	</if>
+	    	<if test="metaTagsDim.isValEnum != null ">
+	    	 	and t.is_val_enum =#{metaTagsDim.isValEnum}
+	    	</if>
+	    	<if test="metaTagsDim.valType != null and metaTagsDim.valType !='' ">
+	    	 	and t.val_type =#{metaTagsDim.valType}
+	    	</if>
+	    	<if test="metaTagsDim.valWeightType != null ">
+	    	 	and t.val_weight_type =#{metaTagsDim.valWeightType}
+	    	</if>
+	    	<if test="metaTagsDim.valWeightNorm != null ">
+	    	 	and t.val_weight_norm =#{metaTagsDim.valWeightNorm}
+	    	</if>
+	    	<if test="metaTagsDim.freq != null ">
+	    	 	and t.freq =#{metaTagsDim.freq}
+	    	</if>
+	    	<if test="metaTagsDim.lifecycle != null ">
+	    	 	and t.lifecycle =#{metaTagsDim.lifecycle}
+	    	</if>
+	    	<if test="metaTagsDim.ruleDesc != null and metaTagsDim.ruleDesc !='' ">
+	    	 	and t.rule_desc =#{metaTagsDim.ruleDesc}
+	    	</if>
+	    	<if test="metaTagsDim.domain != null and metaTagsDim.domain !='' ">
+	    	 	and t.domain =#{metaTagsDim.domain}
+	    	</if>
+	    	<if test="metaTagsDim.field != null and metaTagsDim.field !='' ">
+	    	 	and t.field =#{metaTagsDim.field}
+	    	</if>
+	    	<if test="metaTagsDim.dataFlow != null and metaTagsDim.dataFlow !='' ">
+	    	 	and t.data_flow =#{metaTagsDim.dataFlow}
+	    	</if>
+	    	<if test="metaTagsDim.dataNode != null and metaTagsDim.dataNode !='' ">
+	    	 	and t.data_node =#{metaTagsDim.dataNode}
+	    	</if>
+	    	<if test="metaTagsDim.committer != null and metaTagsDim.committer !='' ">
+	    	 	and t.committer =#{metaTagsDim.committer}
+	    	</if>
+	    	<if test="metaTagsDim.isIndex != null ">
+	    	 	and t.is_index =#{metaTagsDim.isIndex}
+	    	</if>
+	    	<if test="metaTagsDim.createTime != null ">
+	    	 	and t.create_time =#{metaTagsDim.createTime}
+	    	</if>
+	    	<if test="metaTagsDim.createBy != null ">
+	    	 	and t.create_by =#{metaTagsDim.createBy}
+	    	</if>
+	    	<if test="metaTagsDim.modifiedTime != null ">
+	    	 	and t.modified_time =#{metaTagsDim.modifiedTime}
+	    	</if>
+	    	<if test="metaTagsDim.modifiedBy != null ">
+	    	 	and t.modified_by =#{metaTagsDim.modifiedBy}
+	    	</if>
+	    </where>
+	    <if test="page.sortName != null and page.sortOrder!=null">
+    	order by ${page.sortName} ${page.sortOrder} 
+		</if>
+  	</select>
+
+	
+	<insert id="insert" parameterType="com.myron.ims.bean.MetaTagsDim" >
+	    insert into meta_tags_dim (
+			id,
+			name,
+			type,
+			parent_id,
+			arrparent_id,
+			value,
+			description,
+			status,
+			release_time,
+			trash_time,
+			demand,
+			is_val_multi,
+			is_val_enum,
+			val_type,
+			val_weight_type,
+			val_weight_norm,
+			freq,
+			lifecycle,
+			rule_desc,
+			domain,
+			field,
+			data_flow,
+			data_node,
+			committer,
+			is_index,
+			create_time,
+			create_by,
+			modified_time,
+			modified_by
+	    )values (
+	      	#{id,jdbcType=INTEGER},
+	      	#{name,jdbcType=VARCHAR},
+	      	#{type,jdbcType=INTEGER},
+	      	#{parentId,jdbcType=INTEGER},
+	      	#{arrparentId,jdbcType=VARCHAR},
+	      	#{value,jdbcType=VARCHAR},
+	      	#{description,jdbcType=VARCHAR},
+	      	#{status,jdbcType=INTEGER},
+	      	#{releaseTime,jdbcType=TIMESTAMP},
+	      	#{trashTime,jdbcType=TIMESTAMP},
+	      	#{demand,jdbcType=VARCHAR},
+	      	#{isValMulti,jdbcType=INTEGER},
+	      	#{isValEnum,jdbcType=INTEGER},
+	      	#{valType,jdbcType=VARCHAR},
+	      	#{valWeightType,jdbcType=INTEGER},
+	      	#{valWeightNorm,jdbcType=INTEGER},
+	      	#{freq,jdbcType=INTEGER},
+	      	#{lifecycle,jdbcType=INTEGER},
+	      	#{ruleDesc,jdbcType=VARCHAR},
+	      	#{domain,jdbcType=VARCHAR},
+	      	#{field,jdbcType=VARCHAR},
+	      	#{dataFlow,jdbcType=VARCHAR},
+	      	#{dataNode,jdbcType=VARCHAR},
+	      	#{committer,jdbcType=VARCHAR},
+	      	#{isIndex,jdbcType=INTEGER},
+	      	#{createTime,jdbcType=TIMESTAMP},
+	      	#{createBy,jdbcType=INTEGER},
+	      	#{modifiedTime,jdbcType=TIMESTAMP},
+	      	#{modifiedBy,jdbcType=INTEGER}
+	    )
+  	</insert>
+  	
+	<insert id="insertByBatch" parameterType="java.util.List" >
+	    insert into meta_tags_dim (
+			id,
+			name,
+			type,
+			parent_id,
+			arrparent_id,
+			value,
+			description,
+			status,
+			release_time,
+			trash_time,
+			demand,
+			is_val_multi,
+			is_val_enum,
+			val_type,
+			val_weight_type,
+			val_weight_norm,
+			freq,
+			lifecycle,
+			rule_desc,
+			domain,
+			field,
+			data_flow,
+			data_node,
+			committer,
+			is_index,
+			create_time,
+			create_by,
+			modified_time,
+			modified_by
+	    )values  
+	    <foreach collection="list" item="item" index="index" separator=",">
+	    (
+	      	#{item.id,jdbcType=INTEGER},
+	      	#{item.name,jdbcType=VARCHAR},
+	      	#{item.type,jdbcType=INTEGER},
+	      	#{item.parentId,jdbcType=INTEGER},
+	      	#{item.arrparentId,jdbcType=VARCHAR},
+	      	#{item.value,jdbcType=VARCHAR},
+	      	#{item.description,jdbcType=VARCHAR},
+	      	#{item.status,jdbcType=INTEGER},
+	      	#{item.releaseTime,jdbcType=TIMESTAMP},
+	      	#{item.trashTime,jdbcType=TIMESTAMP},
+	      	#{item.demand,jdbcType=VARCHAR},
+	      	#{item.isValMulti,jdbcType=INTEGER},
+	      	#{item.isValEnum,jdbcType=INTEGER},
+	      	#{item.valType,jdbcType=VARCHAR},
+	      	#{item.valWeightType,jdbcType=INTEGER},
+	      	#{item.valWeightNorm,jdbcType=INTEGER},
+	      	#{item.freq,jdbcType=INTEGER},
+	      	#{item.lifecycle,jdbcType=INTEGER},
+	      	#{item.ruleDesc,jdbcType=VARCHAR},
+	      	#{item.domain,jdbcType=VARCHAR},
+	      	#{item.field,jdbcType=VARCHAR},
+	      	#{item.dataFlow,jdbcType=VARCHAR},
+	      	#{item.dataNode,jdbcType=VARCHAR},
+	      	#{item.committer,jdbcType=VARCHAR},
+	      	#{item.isIndex,jdbcType=INTEGER},
+	      	#{item.createTime,jdbcType=TIMESTAMP},
+	      	#{item.createBy,jdbcType=INTEGER},
+	      	#{item.modifiedTime,jdbcType=TIMESTAMP},
+	      	#{item.modifiedBy,jdbcType=INTEGER}
+	    )
+	    </foreach>
+  	</insert>
+  	
+  	<insert id="insertSelective" parameterType="com.myron.ims.bean.MetaTagsDim" >
+	    insert into meta_tags_dim
+	    <trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null">
+				id,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="type != null">
+				type,
+			</if>
+			<if test="parentId != null">
+				parent_id,
+			</if>
+			<if test="arrparentId != null">
+				arrparent_id,
+			</if>
+			<if test="value != null">
+				value,
+			</if>
+			<if test="description != null">
+				description,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="releaseTime != null">
+				release_time,
+			</if>
+			<if test="trashTime != null">
+				trash_time,
+			</if>
+			<if test="demand != null">
+				demand,
+			</if>
+			<if test="isValMulti != null">
+				is_val_multi,
+			</if>
+			<if test="isValEnum != null">
+				is_val_enum,
+			</if>
+			<if test="valType != null">
+				val_type,
+			</if>
+			<if test="valWeightType != null">
+				val_weight_type,
+			</if>
+			<if test="valWeightNorm != null">
+				val_weight_norm,
+			</if>
+			<if test="freq != null">
+				freq,
+			</if>
+			<if test="lifecycle != null">
+				lifecycle,
+			</if>
+			<if test="ruleDesc != null">
+				rule_desc,
+			</if>
+			<if test="domain != null">
+				domain,
+			</if>
+			<if test="field != null">
+				field,
+			</if>
+			<if test="dataFlow != null">
+				data_flow,
+			</if>
+			<if test="dataNode != null">
+				data_node,
+			</if>
+			<if test="committer != null">
+				committer,
+			</if>
+			<if test="isIndex != null">
+				is_index,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="createBy != null">
+				create_by,
+			</if>
+			<if test="modifiedTime != null">
+				modified_time,
+			</if>
+			<if test="modifiedBy != null">
+				modified_by,
+			</if>
+	    </trim>
+	    <trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=INTEGER},
+			</if>
+			<if test="parentId != null">
+				#{parentId,jdbcType=INTEGER},
+			</if>
+			<if test="arrparentId != null">
+				#{arrparentId,jdbcType=VARCHAR},
+			</if>
+			<if test="value != null">
+				#{value,jdbcType=VARCHAR},
+			</if>
+			<if test="description != null">
+				#{description,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="releaseTime != null">
+				#{releaseTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="trashTime != null">
+				#{trashTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="demand != null">
+				#{demand,jdbcType=VARCHAR},
+			</if>
+			<if test="isValMulti != null">
+				#{isValMulti,jdbcType=INTEGER},
+			</if>
+			<if test="isValEnum != null">
+				#{isValEnum,jdbcType=INTEGER},
+			</if>
+			<if test="valType != null">
+				#{valType,jdbcType=VARCHAR},
+			</if>
+			<if test="valWeightType != null">
+				#{valWeightType,jdbcType=INTEGER},
+			</if>
+			<if test="valWeightNorm != null">
+				#{valWeightNorm,jdbcType=INTEGER},
+			</if>
+			<if test="freq != null">
+				#{freq,jdbcType=INTEGER},
+			</if>
+			<if test="lifecycle != null">
+				#{lifecycle,jdbcType=INTEGER},
+			</if>
+			<if test="ruleDesc != null">
+				#{ruleDesc,jdbcType=VARCHAR},
+			</if>
+			<if test="domain != null">
+				#{domain,jdbcType=VARCHAR},
+			</if>
+			<if test="field != null">
+				#{field,jdbcType=VARCHAR},
+			</if>
+			<if test="dataFlow != null">
+				#{dataFlow,jdbcType=VARCHAR},
+			</if>
+			<if test="dataNode != null">
+				#{dataNode,jdbcType=VARCHAR},
+			</if>
+			<if test="committer != null">
+				#{committer,jdbcType=VARCHAR},
+			</if>
+			<if test="isIndex != null">
+				#{isIndex,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createBy != null">
+				#{createBy,jdbcType=INTEGER},
+			</if>
+			<if test="modifiedTime != null">
+				#{modifiedTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modifiedBy != null">
+				#{modifiedBy,jdbcType=INTEGER},
+			</if>
+	    </trim>
+    </insert>
+    
+    <delete id="deleteByPrimaryKey">
+	    delete from meta_tags_dim where id= #{id}
+	</delete>
+  	
+  	<update id="updateByPrimaryKey" parameterType="com.myron.ims.bean.MetaTagsDim">
+		update meta_tags_dim set
+			name=#{name},	
+			type=#{type},	
+			parent_id=#{parentId},	
+			arrparent_id=#{arrparentId},	
+			value=#{value},	
+			description=#{description},	
+			status=#{status},	
+			release_time=#{releaseTime},	
+			trash_time=#{trashTime},	
+			demand=#{demand},	
+			is_val_multi=#{isValMulti},	
+			is_val_enum=#{isValEnum},	
+			val_type=#{valType},	
+			val_weight_type=#{valWeightType},	
+			val_weight_norm=#{valWeightNorm},	
+			freq=#{freq},	
+			lifecycle=#{lifecycle},	
+			rule_desc=#{ruleDesc},	
+			domain=#{domain},	
+			field=#{field},	
+			data_flow=#{dataFlow},	
+			data_node=#{dataNode},	
+			committer=#{committer},	
+			is_index=#{isIndex},	
+			create_time=#{createTime},	
+			create_by=#{createBy},	
+			modified_time=#{modifiedTime},	
+			modified_by=#{modifiedBy}	
+		where id=#{id}
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.myron.ims.bean.MetaTagsDim">
+		update meta_tags_dim 
+		<set>
+			<if test="name != null">
+				name=#{name},
+			</if>
+			<if test="type != null">
+				type=#{type},
+			</if>
+			<if test="parentId != null">
+				parent_id=#{parentId},
+			</if>
+			<if test="arrparentId != null">
+				arrparent_id=#{arrparentId},
+			</if>
+			<if test="value != null">
+				value=#{value},
+			</if>
+			<if test="description != null">
+				description=#{description},
+			</if>
+			<if test="status != null">
+				status=#{status},
+			</if>
+			<if test="releaseTime != null">
+				release_time=#{releaseTime},
+			</if>
+			<if test="trashTime != null">
+				trash_time=#{trashTime},
+			</if>
+			<if test="demand != null">
+				demand=#{demand},
+			</if>
+			<if test="isValMulti != null">
+				is_val_multi=#{isValMulti},
+			</if>
+			<if test="isValEnum != null">
+				is_val_enum=#{isValEnum},
+			</if>
+			<if test="valType != null">
+				val_type=#{valType},
+			</if>
+			<if test="valWeightType != null">
+				val_weight_type=#{valWeightType},
+			</if>
+			<if test="valWeightNorm != null">
+				val_weight_norm=#{valWeightNorm},
+			</if>
+			<if test="freq != null">
+				freq=#{freq},
+			</if>
+			<if test="lifecycle != null">
+				lifecycle=#{lifecycle},
+			</if>
+			<if test="ruleDesc != null">
+				rule_desc=#{ruleDesc},
+			</if>
+			<if test="domain != null">
+				domain=#{domain},
+			</if>
+			<if test="field != null">
+				field=#{field},
+			</if>
+			<if test="dataFlow != null">
+				data_flow=#{dataFlow},
+			</if>
+			<if test="dataNode != null">
+				data_node=#{dataNode},
+			</if>
+			<if test="committer != null">
+				committer=#{committer},
+			</if>
+			<if test="isIndex != null">
+				is_index=#{isIndex},
+			</if>
+			<if test="createTime != null">
+				create_time=#{createTime},
+			</if>
+			<if test="createBy != null">
+				create_by=#{createBy},
+			</if>
+			<if test="modifiedTime != null">
+				modified_time=#{modifiedTime},
+			</if>
+			<if test="modifiedBy != null">
+				modified_by=#{modifiedBy},
+			</if>
+		</set>
+		where id=#{id}
+	</update>
+	
+
+  	
+</mapper>

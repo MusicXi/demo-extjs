@@ -1,0 +1,438 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace用于接口绑定-->
+<mapper namespace="com.myron.ims.dao.GoodsDao">
+
+	<resultMap id="BaseResultMap" type="com.myron.ims.bean.Goods">
+	    <id column="goods_id" property="goodsId" jdbcType="VARCHAR" /> 
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="sale_start_date" property="saleStartDate" jdbcType="TIMESTAMP" />
+		<result column="sale_end_date" property="saleEndDate" jdbcType="TIMESTAMP" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="create_by" property="createBy" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="VARCHAR" />
+		<result column="comment" property="comment" jdbcType="VARCHAR" />
+		<result column="data" property="data" jdbcType="INTEGER" />
+		<result column="flow_type" property="flowType" jdbcType="VARCHAR" />
+		<result column="number" property="number" jdbcType="INTEGER" />
+		<result column="effective_month" property="effectiveMonth" jdbcType="INTEGER" />
+		<result column="price" property="price" jdbcType="DECIMAL" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="DataResultMap" type="java.util.Map">
+	    <id column="goods_id" property="goodsId" jdbcType="VARCHAR" /> 
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="sale_start_date" property="saleStartDate" jdbcType="TIMESTAMP" />
+		<result column="sale_end_date" property="saleEndDate" jdbcType="TIMESTAMP" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="create_by" property="createBy" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="VARCHAR" />
+		<result column="comment" property="comment" jdbcType="VARCHAR" />
+		<result column="data" property="data" jdbcType="INTEGER" />
+		<result column="flow_type" property="flowType" jdbcType="VARCHAR" />
+		<result column="number" property="number" jdbcType="INTEGER" />
+		<result column="effective_month" property="effectiveMonth" jdbcType="INTEGER" />
+		<result column="price" property="price" jdbcType="DECIMAL" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+	</resultMap>	
+	
+	<sql id="Base_Column_List" >
+		t.goods_id ,
+		t.name ,
+		t.sale_start_date ,
+		t.sale_end_date ,
+		t.create_time ,
+		t.create_by ,
+		t.status ,
+		t.comment ,
+		t.data ,
+		t.flow_type ,
+		t.number ,
+		t.effective_month ,
+		t.price ,
+		t.update_time ,
+		t.update_by 
+  	</sql>
+  	
+  	<select id="selectByPrimaryKey" resultMap="BaseResultMap">
+  		select 
+	    <include refid="Base_Column_List" />
+	    from c_goods t 
+	    where t.goods_id = #{goodsId}
+  	</select>
+  	
+  	<select id="selectList" resultMap="BaseResultMap">
+  		select 
+	    <include refid="Base_Column_List" />
+	    from c_goods t
+  	</select>
+  	
+  	<select id="selectListByPage" resultMap="BaseResultMap">
+  		select 
+	    <include refid="Base_Column_List" />
+	    from c_goods t
+	    <where>
+	    	<if test="goods.goodsId != null and goods.goodsId !='' ">
+	    	 	and t.goods_id =#{goods.goodsId}
+	    	</if>
+	    	<if test="goods.name != null and goods.name !='' ">
+	    	 	and t.name =#{goods.name}
+	    	</if>
+	    	<if test="goods.saleStartDate != null ">
+	    	 	and t.sale_start_date =#{goods.saleStartDate}
+	    	</if>
+	    	<if test="goods.saleEndDate != null ">
+	    	 	and t.sale_end_date =#{goods.saleEndDate}
+	    	</if>
+	    	<if test="goods.createTime != null ">
+	    	 	and t.create_time =#{goods.createTime}
+	    	</if>
+	    	<if test="goods.createBy != null and goods.createBy !='' ">
+	    	 	and t.create_by =#{goods.createBy}
+	    	</if>
+	    	<if test="goods.status != null and goods.status !='' ">
+	    	 	and t.status =#{goods.status}
+	    	</if>
+	    	<if test="goods.comment != null and goods.comment !='' ">
+	    	 	and t.comment =#{goods.comment}
+	    	</if>
+	    	<if test="goods.data != null ">
+	    	 	and t.data =#{goods.data}
+	    	</if>
+	    	<if test="goods.flowType != null and goods.flowType !='' ">
+	    	 	and t.flow_type =#{goods.flowType}
+	    	</if>
+	    	<if test="goods.number != null ">
+	    	 	and t.number =#{goods.number}
+	    	</if>
+	    	<if test="goods.effectiveMonth != null ">
+	    	 	and t.effective_month =#{goods.effectiveMonth}
+	    	</if>
+	    	<if test="goods.price != null ">
+	    	 	and t.price =#{goods.price}
+	    	</if>
+	    	<if test="goods.updateTime != null ">
+	    	 	and t.update_time =#{goods.updateTime}
+	    	</if>
+	    	<if test="goods.updateBy != null and goods.updateBy !='' ">
+	    	 	and t.update_by =#{goods.updateBy}
+	    	</if>
+	    </where>
+	    <if test="page.sortName != null and page.sortOrder!=null">
+    	order by ${page.sortName} ${page.sortOrder} 
+		</if>
+  	</select>
+  	
+  	<select id="selectMapList" resultMap="DataResultMap">
+  		select 
+	    <include refid="Base_Column_List" />
+	    from c_goods t
+  	</select>
+  	
+  	<select id="selectMapListByPage" resultMap="DataResultMap">
+  		select 
+	    <include refid="Base_Column_List" />
+	    from c_goods t
+	    <where>
+	    	<if test="goods.goodsId != null and goods.goodsId !='' ">
+	    	 	and t.goods_id =#{goods.goodsId}
+	    	</if>
+	    	<if test="goods.name != null and goods.name !='' ">
+	    	 	and t.name =#{goods.name}
+	    	</if>
+	    	<if test="goods.saleStartDate != null ">
+	    	 	and t.sale_start_date =#{goods.saleStartDate}
+	    	</if>
+	    	<if test="goods.saleEndDate != null ">
+	    	 	and t.sale_end_date =#{goods.saleEndDate}
+	    	</if>
+	    	<if test="goods.createTime != null ">
+	    	 	and t.create_time =#{goods.createTime}
+	    	</if>
+	    	<if test="goods.createBy != null and goods.createBy !='' ">
+	    	 	and t.create_by =#{goods.createBy}
+	    	</if>
+	    	<if test="goods.status != null and goods.status !='' ">
+	    	 	and t.status =#{goods.status}
+	    	</if>
+	    	<if test="goods.comment != null and goods.comment !='' ">
+	    	 	and t.comment =#{goods.comment}
+	    	</if>
+	    	<if test="goods.data != null ">
+	    	 	and t.data =#{goods.data}
+	    	</if>
+	    	<if test="goods.flowType != null and goods.flowType !='' ">
+	    	 	and t.flow_type =#{goods.flowType}
+	    	</if>
+	    	<if test="goods.number != null ">
+	    	 	and t.number =#{goods.number}
+	    	</if>
+	    	<if test="goods.effectiveMonth != null ">
+	    	 	and t.effective_month =#{goods.effectiveMonth}
+	    	</if>
+	    	<if test="goods.price != null ">
+	    	 	and t.price =#{goods.price}
+	    	</if>
+	    	<if test="goods.updateTime != null ">
+	    	 	and t.update_time =#{goods.updateTime}
+	    	</if>
+	    	<if test="goods.updateBy != null and goods.updateBy !='' ">
+	    	 	and t.update_by =#{goods.updateBy}
+	    	</if>
+	    </where>
+	    <if test="page.sortName != null and page.sortOrder!=null">
+    	order by ${page.sortName} ${page.sortOrder} 
+		</if>
+  	</select>
+
+	
+	<insert id="insert" parameterType="com.myron.ims.bean.Goods" >
+	    insert into c_goods (
+			goods_id,
+			name,
+			sale_start_date,
+			sale_end_date,
+			create_time,
+			create_by,
+			status,
+			comment,
+			data,
+			flow_type,
+			number,
+			effective_month,
+			price,
+			update_time,
+			update_by
+	    )values (
+	      	#{goodsId,jdbcType=VARCHAR},
+	      	#{name,jdbcType=VARCHAR},
+	      	#{saleStartDate,jdbcType=TIMESTAMP},
+	      	#{saleEndDate,jdbcType=TIMESTAMP},
+	      	#{createTime,jdbcType=TIMESTAMP},
+	      	#{createBy,jdbcType=VARCHAR},
+	      	#{status,jdbcType=VARCHAR},
+	      	#{comment,jdbcType=VARCHAR},
+	      	#{data,jdbcType=INTEGER},
+	      	#{flowType,jdbcType=VARCHAR},
+	      	#{number,jdbcType=INTEGER},
+	      	#{effectiveMonth,jdbcType=INTEGER},
+	      	#{price,jdbcType=DECIMAL},
+	      	#{updateTime,jdbcType=TIMESTAMP},
+	      	#{updateBy,jdbcType=VARCHAR}
+	    )
+  	</insert>
+  	
+	<insert id="insertByBatch" parameterType="java.util.List" >
+	    insert into c_goods (
+			goods_id,
+			name,
+			sale_start_date,
+			sale_end_date,
+			create_time,
+			create_by,
+			status,
+			comment,
+			data,
+			flow_type,
+			number,
+			effective_month,
+			price,
+			update_time,
+			update_by
+	    )values  
+	    <foreach collection="list" item="item" index="index" separator=",">
+	    (
+	      	#{item.goodsId,jdbcType=VARCHAR},
+	      	#{item.name,jdbcType=VARCHAR},
+	      	#{item.saleStartDate,jdbcType=TIMESTAMP},
+	      	#{item.saleEndDate,jdbcType=TIMESTAMP},
+	      	#{item.createTime,jdbcType=TIMESTAMP},
+	      	#{item.createBy,jdbcType=VARCHAR},
+	      	#{item.status,jdbcType=VARCHAR},
+	      	#{item.comment,jdbcType=VARCHAR},
+	      	#{item.data,jdbcType=INTEGER},
+	      	#{item.flowType,jdbcType=VARCHAR},
+	      	#{item.number,jdbcType=INTEGER},
+	      	#{item.effectiveMonth,jdbcType=INTEGER},
+	      	#{item.price,jdbcType=DECIMAL},
+	      	#{item.updateTime,jdbcType=TIMESTAMP},
+	      	#{item.updateBy,jdbcType=VARCHAR}
+	    )
+	    </foreach>
+  	</insert>
+  	
+  	<insert id="insertSelective" parameterType="com.myron.ims.bean.Goods" >
+	    insert into c_goods
+	    <trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="goodsId != null">
+				goods_id,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="saleStartDate != null">
+				sale_start_date,
+			</if>
+			<if test="saleEndDate != null">
+				sale_end_date,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="createBy != null">
+				create_by,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="comment != null">
+				comment,
+			</if>
+			<if test="data != null">
+				data,
+			</if>
+			<if test="flowType != null">
+				flow_type,
+			</if>
+			<if test="number != null">
+				number,
+			</if>
+			<if test="effectiveMonth != null">
+				effective_month,
+			</if>
+			<if test="price != null">
+				price,
+			</if>
+			<if test="updateTime != null">
+				update_time,
+			</if>
+			<if test="updateBy != null">
+				update_by,
+			</if>
+	    </trim>
+	    <trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="goodsId != null">
+				#{goodsId,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="saleStartDate != null">
+				#{saleStartDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="saleEndDate != null">
+				#{saleEndDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createBy != null">
+				#{createBy,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=VARCHAR},
+			</if>
+			<if test="comment != null">
+				#{comment,jdbcType=VARCHAR},
+			</if>
+			<if test="data != null">
+				#{data,jdbcType=INTEGER},
+			</if>
+			<if test="flowType != null">
+				#{flowType,jdbcType=VARCHAR},
+			</if>
+			<if test="number != null">
+				#{number,jdbcType=INTEGER},
+			</if>
+			<if test="effectiveMonth != null">
+				#{effectiveMonth,jdbcType=INTEGER},
+			</if>
+			<if test="price != null">
+				#{price,jdbcType=DECIMAL},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateBy != null">
+				#{updateBy,jdbcType=VARCHAR},
+			</if>
+	    </trim>
+    </insert>
+    
+    <delete id="deleteByPrimaryKey">
+	    delete from c_goods where goods_id= #{goodsId}
+	</delete>
+  	
+  	<update id="updateByPrimaryKey" parameterType="com.myron.ims.bean.Goods">
+		update c_goods set
+			name=#{name},	
+			sale_start_date=#{saleStartDate},	
+			sale_end_date=#{saleEndDate},	
+			create_time=#{createTime},	
+			create_by=#{createBy},	
+			status=#{status},	
+			comment=#{comment},	
+			data=#{data},	
+			flow_type=#{flowType},	
+			number=#{number},	
+			effective_month=#{effectiveMonth},	
+			price=#{price},	
+			update_time=#{updateTime},	
+			update_by=#{updateBy}	
+		where goods_id=#{goodsId}
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.myron.ims.bean.Goods">
+		update c_goods 
+		<set>
+			<if test="name != null">
+				name=#{name},
+			</if>
+			<if test="saleStartDate != null">
+				sale_start_date=#{saleStartDate},
+			</if>
+			<if test="saleEndDate != null">
+				sale_end_date=#{saleEndDate},
+			</if>
+			<if test="createTime != null">
+				create_time=#{createTime},
+			</if>
+			<if test="createBy != null">
+				create_by=#{createBy},
+			</if>
+			<if test="status != null">
+				status=#{status},
+			</if>
+			<if test="comment != null">
+				comment=#{comment},
+			</if>
+			<if test="data != null">
+				data=#{data},
+			</if>
+			<if test="flowType != null">
+				flow_type=#{flowType},
+			</if>
+			<if test="number != null">
+				number=#{number},
+			</if>
+			<if test="effectiveMonth != null">
+				effective_month=#{effectiveMonth},
+			</if>
+			<if test="price != null">
+				price=#{price},
+			</if>
+			<if test="updateTime != null">
+				update_time=#{updateTime},
+			</if>
+			<if test="updateBy != null">
+				update_by=#{updateBy},
+			</if>
+		</set>
+		where goods_id=#{goodsId}
+	</update>
+	
+
+  	
+</mapper>

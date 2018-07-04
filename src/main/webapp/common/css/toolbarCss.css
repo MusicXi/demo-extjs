@@ -1,0 +1,6 @@
+/**工具栏图标、菜单栏图标 */
+.toolbar-add{background:url(../images/toolbar/toolbar_add.png) 0 no-repeat !important;}
+.toolbar-delete{background:url(../images/toolbar/toolbar_delete.png) 0 no-repeat !important;}
+.toolbar-update{background:url(../images/toolbar/toolbar_update.png) 0 no-repeat !important;}
+.toolbar-refresh{background:url(../images/toolbar/toolbar_refresh.png) 0 no-repeat !important;}
+.toolbar-search{background:url(../images/toolbar/toolbar_search.png) 0 no-repeat !important;}

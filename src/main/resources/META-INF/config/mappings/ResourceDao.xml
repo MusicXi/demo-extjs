@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace用于接口绑定-->
+<mapper namespace="com.myron.ims.dao.ResourceDao">
+	<!-- ==================select start========================= -->
+	<select id="selectByPrimaryKey" resultType="com.myron.ims.bean.Resource">
+		select 	a.resource_id as "id",
+				a.name,
+				a.url,
+				a.type,
+				a.permission
+		from sys_resource a
+		where a.resource_id=#{id}
+	</select>
+	<select id="findMenuByUser" resultType="com.myron.ims.bean.Resource">
+		select 	a.resource_id as "id",
+				a.name,
+				a.url,
+				a.type,
+				a.permission
+		from sys_resource a
+		join sys_role_resource b on a.resource_id=b.resource_id
+		join sys_role c on b.role_id=c.role_id
+		join sys_user_role d on c.role_id=d.role_id
+		join sys_user e on e.user_id=d.user_id
+		where a.type='menu' and e.user_id=#{id}
+	</select>
+	
+	<select id="findListByUser" resultType="com.myron.ims.bean.Resource">
+		select 	a.resource_id as "id",
+				a.name,
+				a.url,
+				a.type,
+				a.permission
+		from sys_resource a
+		join sys_role_resource b on a.resource_id=b.resource_id
+		join sys_role c on b.role_id=c.role_id
+		join sys_user_role d on c.role_id=d.role_id
+		join sys_user e on e.user_id=d.user_id
+		where e.user_id=#{id}
+	</select>
+	
+	<select id="getChildMenu" resultType="com.myron.ims.bean.Resource">
+		select 	a.resource_id as "id",
+				a.name,
+				a.url,
+				a.icon,
+				a.type,
+				a.permission
+		from sys_resource a
+		where a.parent_id=#{id} and a.type='menu'
+	</select>
+	
+	<select id="getChildren" resultType="com.myron.ims.bean.Resource">
+		select 	a.resource_id as "id",
+				a.name,
+				a.url,
+				a.icon,
+				a.type,
+				a.permission
+		from sys_resource a
+		where a.parent_id=#{id} 
+	</select>
+	
+	<!--========================= select end ================================-->
+	
+	<insert id="insert" parameterType="com.myron.ims.bean.Resource">
+		insert into sys_resource(
+			resource_id,
+			name,
+			url,
+			icon,
+			type,
+			permission,
+			parent_id
+		)values(
+			#{id},
+			#{name},
+			#{url},
+			#{icon},
+			#{type},
+			#{permission},
+			#{parentId}
+		)
+	</insert>
+	
+	<update id="updateByPrimaryKey" parameterType="com.myron.ims.bean.Resource">
+		update sys_resource set
+			resource_id=#{id},
+			name=#{name},
+			url=#{url},
+			icon=#{icon},
+			type=#{type},
+			permission=#{permission},
+			parent_id=#{parentId}
+		where resource_id=#{id}
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.myron.ims.bean.Resource">
+		update sys_resource 
+		<set>
+			<if test="name != null">
+				name=#{name},
+			</if>
+			<if test="url != null">
+				url=#{url},
+			</if>
+			<if test="icon != null">
+				icon=#{icon},
+			</if>
+			<if test="type != null">
+				type=#{type},
+			</if>
+			<if test="permission != null">
+				permission=#{permission},
+			</if>
+			<if test="parentId !=null">
+				parent_id=#{parentId},
+			</if>
+		</set>
+		where resource_id=#{id}
+	</update>
+	
+	<delete id="deleteByPrimaryKey" parameterType="com.myron.ims.bean.Resource">
+		delele from sys_resource
+		where resource_id=#{id}
+	</delete>
+</mapper>

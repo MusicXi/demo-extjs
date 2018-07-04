@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace用于接口绑定-->
+<mapper namespace="com.myron.ims.dao.RoleResourceDao">
+
+	<resultMap id="BaseResultMap" type="com.myron.ims.bean.RoleResource">
+	    <id column="role_id" property="roleId" jdbcType="VARCHAR" /> 
+	    <id column="resource_id" property="resourceId" jdbcType="VARCHAR" /> 
+	</resultMap>
+	
+	<resultMap id="DataResultMap" type="java.util.Map">
+	    <id column="role_id" property="roleId" jdbcType="VARCHAR" /> 
+	    <id column="resource_id" property="resourceId" jdbcType="VARCHAR" /> 
+	</resultMap>	
+	
+	<sql id="Base_Column_List" >
+		t.role_id ,
+		t.resource_id 
+  	</sql>
+  	
+  	<select id="selectByPrimaryKey" resultMap="BaseResultMap">
+  		select 
+	    <include refid="Base_Column_List" />
+	    from sys_role_resource t 
+	    where t.role_id = #{roleId}
+  	</select>
+  	<select id="selectListByRoleId" resultMap="BaseResultMap">
+  		select 
+	    <include refid="Base_Column_List" />
+	    from sys_role_resource t 
+	    where t.role_id = #{roleId}
+  	</select>
+  	
+  	
+  	<select id="selectList" resultMap="BaseResultMap">
+  		select 
+	    <include refid="Base_Column_List" />
+	    from sys_role_resource t
+  	</select>
+  	
+  	<select id="selectListByPage" resultMap="BaseResultMap">
+  		select 
+	    <include refid="Base_Column_List" />
+	    from sys_role_resource t
+  	</select>
+  	
+  	<select id="selectMapList" resultMap="DataResultMap">
+  		select 
+	    <include refid="Base_Column_List" />
+	    from sys_role_resource t
+  	</select>
+  	
+  	<select id="selectMapListByPage" resultMap="DataResultMap">
+  		select 
+	    <include refid="Base_Column_List" />
+	    from sys_role_resource t
+  	</select>
+
+	
+	<insert id="insert" parameterType="com.myron.ims.bean.RoleResource" >
+	    insert into sys_role_resource (
+			role_id,
+			resource_id
+	      )values (
+	      	#{roleId,jdbcType=VARCHAR},
+	      	#{resourceId,jdbcType=VARCHAR}
+	      )
+  	</insert>
+  	
+  	<insert id="insertSelective" parameterType="com.myron.ims.bean.RoleResource" >
+	    insert into sys_role_resource
+	    <trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="roleId != null">
+				role_id,
+			</if>
+			<if test="resourceId != null">
+				resource_id,
+			</if>
+	    </trim>
+	    <trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="roleId != null">
+				#{roleId,jdbcType=VARCHAR},
+			</if>
+			<if test="resourceId != null">
+				#{resourceId,jdbcType=VARCHAR},
+			</if>
+	    </trim>
+    </insert>
+    
+    <delete id="deleteByPrimaryKey">
+	    delete from sys_role_resource where role_id= #{roleId}
+	  
+	</delete>
+  	
+  
+
+</mapper>

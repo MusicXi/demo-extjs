@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace用于接口绑定-->
+<mapper namespace="com.myron.ims.dao.LogDao">
+
+	<resultMap id="BaseResultMap" type="com.myron.ims.bean.Log">
+	    <id column="log_id" property="logId" jdbcType="VARCHAR" /> 
+		<result column="type" property="type" jdbcType="VARCHAR" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="remote_addr" property="remoteAddr" jdbcType="VARCHAR" />
+		<result column="request_uri" property="requestUri" jdbcType="VARCHAR" />
+		<result column="method" property="method" jdbcType="VARCHAR" />
+		<result column="params" property="params" jdbcType="VARCHAR" />
+		<result column="exception" property="exception" jdbcType="VARCHAR" />
+		<result column="operate_date" property="operateDate" jdbcType="TIMESTAMP" />
+		<result column="timeout" property="timeout" jdbcType="VARCHAR" />
+		<result column="user_id" property="userId" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="DataResultMap" type="java.util.Map">
+	    <id column="log_id" property="logId" jdbcType="VARCHAR" /> 
+		<result column="type" property="type" jdbcType="VARCHAR" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="remote_addr" property="remoteAddr" jdbcType="VARCHAR" />
+		<result column="request_uri" property="requestUri" jdbcType="VARCHAR" />
+		<result column="method" property="method" jdbcType="VARCHAR" />
+		<result column="params" property="params" jdbcType="VARCHAR" />
+		<result column="exception" property="exception" jdbcType="VARCHAR" />
+		<result column="operate_date" property="operateDate" jdbcType="TIMESTAMP" />
+		<result column="timeout" property="timeout" jdbcType="VARCHAR" />
+		<result column="user_id" property="userId" jdbcType="VARCHAR" />
+	</resultMap>	
+	
+	<sql id="Base_Column_List" >
+		t.log_id ,
+		t.type ,
+		t.title ,
+		t.remote_addr ,
+		t.request_uri ,
+		t.method ,
+		t.params ,
+		t.exception ,
+		t.operate_date ,
+		t.timeout ,
+		t.user_id 
+  	</sql>
+  	
+  	<select id="selectByPrimaryKey" resultMap="BaseResultMap">
+  		select 
+	    <include refid="Base_Column_List" />
+	    from sys_log t 
+	    where t.log_id = #{logId}
+  	</select>
+  	
+  	<select id="selectList" resultMap="BaseResultMap">
+  		select 
+	    <include refid="Base_Column_List" />
+	    from sys_log t
+  	</select>
+  	
+  	<select id="selectListByPage" resultMap="BaseResultMap">
+  		select 
+	    <include refid="Base_Column_List" />
+	    from sys_log t
+	    <if test="page.sortName != null and page.sortOrder!=null">
+    		order by ${page.sortName} ${page.sortOrder} 
+    	</if>
+  	</select>
+  	
+  	<select id="selectMapList" resultMap="DataResultMap">
+  		select 
+	    <include refid="Base_Column_List" />
+	    from sys_log t
+  	</select>
+  	
+  	<select id="selectMapListByPage" resultMap="DataResultMap">
+  		select 
+	    <include refid="Base_Column_List" />
+	    from sys_log t
+    	<if test="page.sortName != null and page.sortOrder!=null">
+    		order by ${page.sortName} ${page.sortOrder} 
+    	</if>
+  	</select>
+
+	
+	<insert id="insert" parameterType="com.myron.ims.bean.Log" >
+	    insert into sys_log (
+			log_id,
+			type,
+			title,
+			remote_addr,
+			request_uri,
+			method,
+			params,
+			exception,
+			operate_date,
+			timeout,
+			user_id
+	      )values (
+	      	#{logId,jdbcType=VARCHAR},
+	      	#{type,jdbcType=VARCHAR},
+	      	#{title,jdbcType=VARCHAR},
+	      	#{remoteAddr,jdbcType=VARCHAR},
+	      	#{requestUri,jdbcType=VARCHAR},
+	      	#{method,jdbcType=VARCHAR},
+	      	#{params,jdbcType=VARCHAR},
+	      	#{exception,jdbcType=VARCHAR},
+	      	#{operateDate,jdbcType=TIMESTAMP},
+	      	#{timeout,jdbcType=VARCHAR},
+	      	#{userId,jdbcType=VARCHAR}
+	      )
+  	</insert>
+  	
+  	<insert id="insertSelective" parameterType="com.myron.ims.bean.Log" >
+	    insert into sys_log
+	    <trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="logId != null">
+				log_id,
+			</if>
+			<if test="type != null">
+				type,
+			</if>
+			<if test="title != null">
+				title,
+			</if>
+			<if test="remoteAddr != null">
+				remote_addr,
+			</if>
+			<if test="requestUri != null">
+				request_uri,
+			</if>
+			<if test="method != null">
+				method,
+			</if>
+			<if test="params != null">
+				params,
+			</if>
+			<if test="exception != null">
+				exception,
+			</if>
+			<if test="operateDate != null">
+				operate_date,
+			</if>
+			<if test="timeout != null">
+				timeout,
+			</if>
+			<if test="userId != null">
+				user_id,
+			</if>
+	    </trim>
+	    <trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="logId != null">
+				#{logId,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=VARCHAR},
+			</if>
+			<if test="title != null">
+				#{title,jdbcType=VARCHAR},
+			</if>
+			<if test="remoteAddr != null">
+				#{remoteAddr,jdbcType=VARCHAR},
+			</if>
+			<if test="requestUri != null">
+				#{requestUri,jdbcType=VARCHAR},
+			</if>
+			<if test="method != null">
+				#{method,jdbcType=VARCHAR},
+			</if>
+			<if test="params != null">
+				#{params,jdbcType=VARCHAR},
+			</if>
+			<if test="exception != null">
+				#{exception,jdbcType=VARCHAR},
+			</if>
+			<if test="operateDate != null">
+				#{operateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="timeout != null">
+				#{timeout,jdbcType=VARCHAR},
+			</if>
+			<if test="userId != null">
+				#{userId,jdbcType=VARCHAR},
+			</if>
+	    </trim>
+    </insert>
+    
+    <delete id="deleteByPrimaryKey">
+	    delete from sys_log where log_id= #{logId}
+	</delete>
+  	
+  	<update id="updateByPrimaryKey" parameterType="com.myron.ims.bean.Log">
+		update sys_log set
+			type=#{type},	
+			title=#{title},	
+			remote_addr=#{remoteAddr},	
+			request_uri=#{requestUri},	
+			method=#{method},	
+			params=#{params},	
+			exception=#{exception},	
+			operate_date=#{operateDate},	
+			timeout=#{timeout},	
+			user_id=#{userId}	
+			where log_id=#{logId}
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.myron.ims.bean.Log">
+		update sys_log 
+		<set>
+			<if test="type != null">
+				type=#{type},
+			</if>
+			<if test="title != null">
+				title=#{title},
+			</if>
+			<if test="remoteAddr != null">
+				remote_addr=#{remoteAddr},
+			</if>
+			<if test="requestUri != null">
+				request_uri=#{requestUri},
+			</if>
+			<if test="method != null">
+				method=#{method},
+			</if>
+			<if test="params != null">
+				params=#{params},
+			</if>
+			<if test="exception != null">
+				exception=#{exception},
+			</if>
+			<if test="operateDate != null">
+				operate_date=#{operateDate},
+			</if>
+			<if test="timeout != null">
+				timeout=#{timeout},
+			</if>
+			<if test="userId != null">
+				user_id=#{userId},
+			</if>
+		</set>
+			where log_id=#{logId}
+	</update>
+	
+
+  	
+</mapper>

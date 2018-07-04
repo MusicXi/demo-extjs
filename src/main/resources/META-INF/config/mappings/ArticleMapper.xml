@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace用于接口绑定-->
+<mapper namespace="com.myron.ims.dao.ArticleDao">
+
+	<resultMap id="BaseResultMap" type="com.myron.ims.bean.Article">
+	    <id column="article_id" property="articleId" jdbcType="VARCHAR" /> 
+		<result column="category_id" property="categoryId" jdbcType="VARCHAR" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="link" property="link" jdbcType="VARCHAR" />
+		<result column="color" property="color" jdbcType="VARCHAR" />
+		<result column="image" property="image" jdbcType="VARCHAR" />
+		<result column="keywords" property="keywords" jdbcType="VARCHAR" />
+		<result column="description" property="description" jdbcType="VARCHAR" />
+		<result column="weight" property="weight" jdbcType="INTEGER" />
+		<result column="weight_date" property="weightDate" jdbcType="TIMESTAMP" />
+		<result column="hits" property="hits" jdbcType="INTEGER" />
+		<result column="posid" property="posid" jdbcType="VARCHAR" />
+		<result column="create_by" property="createBy" jdbcType="VARCHAR" />
+		<result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+		<result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+		<result column="remarks" property="remarks" jdbcType="VARCHAR" />
+		<result column="del_flag" property="delFlag" jdbcType="CHAR" />
+		<result column="content" property="content" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="DataResultMap" type="java.util.Map">
+	    <id column="article_id" property="articleId" jdbcType="VARCHAR" /> 
+		<result column="category_id" property="categoryId" jdbcType="VARCHAR" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="link" property="link" jdbcType="VARCHAR" />
+		<result column="color" property="color" jdbcType="VARCHAR" />
+		<result column="image" property="image" jdbcType="VARCHAR" />
+		<result column="keywords" property="keywords" jdbcType="VARCHAR" />
+		<result column="description" property="description" jdbcType="VARCHAR" />
+		<result column="weight" property="weight" jdbcType="INTEGER" />
+		<result column="weight_date" property="weightDate" jdbcType="TIMESTAMP" />
+		<result column="hits" property="hits" jdbcType="INTEGER" />
+		<result column="posid" property="posid" jdbcType="VARCHAR" />
+		<result column="create_by" property="createBy" jdbcType="VARCHAR" />
+		<result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+		<result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+		<result column="remarks" property="remarks" jdbcType="VARCHAR" />
+		<result column="del_flag" property="delFlag" jdbcType="CHAR" />
+		<result column="content" property="content" jdbcType="VARCHAR" />
+	</resultMap>	
+	
+	<sql id="Base_Column_List" >
+		t.article_id ,
+		t.category_id ,
+		t.title ,
+		t.link ,
+		t.color ,
+		t.image ,
+		t.keywords ,
+		t.description ,
+		t.weight ,
+		t.weight_date ,
+		t.hits ,
+		t.posid ,
+		t.create_by ,
+		t.create_date ,
+		t.update_by ,
+		t.update_date ,
+		t.remarks ,
+		t.del_flag ,
+		t.content 
+  	</sql>
+  	
+  	<select id="selectByPrimaryKey" resultMap="BaseResultMap">
+  		select 
+	    <include refid="Base_Column_List" />
+	    from cms_article t 
+	    where t.article_id = #{articleId}
+  	</select>
+  	
+  	<select id="selectList" resultMap="BaseResultMap">
+  		select 
+	    <include refid="Base_Column_List" />
+	    from cms_article t
+  	</select>
+  	
+  	<select id="selectListByPage" resultMap="BaseResultMap">
+  		select 
+	    <include refid="Base_Column_List" />
+	    from cms_article t
+  	</select>
+  	
+  	<select id="selectMapList" resultMap="DataResultMap">
+  		select 
+	    <include refid="Base_Column_List" />
+	    from cms_article t
+  	</select>
+  	
+  	<select id="selectMapListByPage" resultMap="DataResultMap">
+  		select 
+	    <include refid="Base_Column_List" />
+	    from cms_article t
+  	</select>
+
+	
+	<insert id="insert" parameterType="com.myron.ims.bean.Article" >
+	    insert into cms_article (
+			article_id,
+			category_id,
+			title,
+			link,
+			color,
+			image,
+			keywords,
+			description,
+			weight,
+			weight_date,
+			hits,
+			posid,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag,
+			content
+	      )values (
+	      	#{articleId,jdbcType=VARCHAR},
+	      	#{categoryId,jdbcType=VARCHAR},
+	      	#{title,jdbcType=VARCHAR},
+	      	#{link,jdbcType=VARCHAR},
+	      	#{color,jdbcType=VARCHAR},
+	      	#{image,jdbcType=VARCHAR},
+	      	#{keywords,jdbcType=VARCHAR},
+	      	#{description,jdbcType=VARCHAR},
+	      	#{weight,jdbcType=INTEGER},
+	      	#{weightDate,jdbcType=TIMESTAMP},
+	      	#{hits,jdbcType=INTEGER},
+	      	#{posid,jdbcType=VARCHAR},
+	      	#{createBy,jdbcType=VARCHAR},
+	      	#{createDate,jdbcType=TIMESTAMP},
+	      	#{updateBy,jdbcType=VARCHAR},
+	      	#{updateDate,jdbcType=TIMESTAMP},
+	      	#{remarks,jdbcType=VARCHAR},
+	      	#{delFlag,jdbcType=CHAR},
+	      	#{content,jdbcType=VARCHAR}
+	      )
+  	</insert>
+  	
+  	<insert id="insertSelective" parameterType="com.myron.ims.bean.Article" >
+	    insert into cms_article
+	    <trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="articleId != null">
+				article_id,
+			</if>
+			<if test="categoryId != null">
+				category_id,
+			</if>
+			<if test="title != null">
+				title,
+			</if>
+			<if test="link != null">
+				link,
+			</if>
+			<if test="color != null">
+				color,
+			</if>
+			<if test="image != null">
+				image,
+			</if>
+			<if test="keywords != null">
+				keywords,
+			</if>
+			<if test="description != null">
+				description,
+			</if>
+			<if test="weight != null">
+				weight,
+			</if>
+			<if test="weightDate != null">
+				weight_date,
+			</if>
+			<if test="hits != null">
+				hits,
+			</if>
+			<if test="posid != null">
+				posid,
+			</if>
+			<if test="createBy != null">
+				create_by,
+			</if>
+			<if test="createDate != null">
+				create_date,
+			</if>
+			<if test="updateBy != null">
+				update_by,
+			</if>
+			<if test="updateDate != null">
+				update_date,
+			</if>
+			<if test="remarks != null">
+				remarks,
+			</if>
+			<if test="delFlag != null">
+				del_flag,
+			</if>
+			<if test="content != null">
+				content,
+			</if>
+	    </trim>
+	    <trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="articleId != null">
+				#{articleId,jdbcType=VARCHAR},
+			</if>
+			<if test="categoryId != null">
+				#{categoryId,jdbcType=VARCHAR},
+			</if>
+			<if test="title != null">
+				#{title,jdbcType=VARCHAR},
+			</if>
+			<if test="link != null">
+				#{link,jdbcType=VARCHAR},
+			</if>
+			<if test="color != null">
+				#{color,jdbcType=VARCHAR},
+			</if>
+			<if test="image != null">
+				#{image,jdbcType=VARCHAR},
+			</if>
+			<if test="keywords != null">
+				#{keywords,jdbcType=VARCHAR},
+			</if>
+			<if test="description != null">
+				#{description,jdbcType=VARCHAR},
+			</if>
+			<if test="weight != null">
+				#{weight,jdbcType=INTEGER},
+			</if>
+			<if test="weightDate != null">
+				#{weightDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="hits != null">
+				#{hits,jdbcType=INTEGER},
+			</if>
+			<if test="posid != null">
+				#{posid,jdbcType=VARCHAR},
+			</if>
+			<if test="createBy != null">
+				#{createBy,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				#{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateBy != null">
+				#{updateBy,jdbcType=VARCHAR},
+			</if>
+			<if test="updateDate != null">
+				#{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="remarks != null">
+				#{remarks,jdbcType=VARCHAR},
+			</if>
+			<if test="delFlag != null">
+				#{delFlag,jdbcType=CHAR},
+			</if>
+			<if test="content != null">
+				#{content,jdbcType=VARCHAR},
+			</if>
+	    </trim>
+    </insert>
+    
+    <delete id="deleteByPrimaryKey">
+	    delete from cms_article where article_id= #{articleId}
+	</delete>
+  	
+  	<update id="updateByPrimaryKey" parameterType="com.myron.ims.bean.Article">
+		update cms_article set
+			category_id=#{categoryId},	
+			title=#{title},	
+			link=#{link},	
+			color=#{color},	
+			image=#{image},	
+			keywords=#{keywords},	
+			description=#{description},	
+			weight=#{weight},	
+			weight_date=#{weightDate},	
+			hits=#{hits},	
+			posid=#{posid},	
+			create_by=#{createBy},	
+			create_date=#{createDate},	
+			update_by=#{updateBy},	
+			update_date=#{updateDate},	
+			remarks=#{remarks},	
+			del_flag=#{delFlag},	
+			content=#{content}	
+			where article_id=#{articleId}
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.myron.ims.bean.Article">
+		update cms_article 
+		<set>
+			<if test="categoryId != null">
+				category_id=#{categoryId},
+			</if>
+			<if test="title != null">
+				title=#{title},
+			</if>
+			<if test="link != null">
+				link=#{link},
+			</if>
+			<if test="color != null">
+				color=#{color},
+			</if>
+			<if test="image != null">
+				image=#{image},
+			</if>
+			<if test="keywords != null">
+				keywords=#{keywords},
+			</if>
+			<if test="description != null">
+				description=#{description},
+			</if>
+			<if test="weight != null">
+				weight=#{weight},
+			</if>
+			<if test="weightDate != null">
+				weight_date=#{weightDate},
+			</if>
+			<if test="hits != null">
+				hits=#{hits},
+			</if>
+			<if test="posid != null">
+				posid=#{posid},
+			</if>
+			<if test="createBy != null">
+				create_by=#{createBy},
+			</if>
+			<if test="createDate != null">
+				create_date=#{createDate},
+			</if>
+			<if test="updateBy != null">
+				update_by=#{updateBy},
+			</if>
+			<if test="updateDate != null">
+				update_date=#{updateDate},
+			</if>
+			<if test="remarks != null">
+				remarks=#{remarks},
+			</if>
+			<if test="delFlag != null">
+				del_flag=#{delFlag},
+			</if>
+			<if test="content != null">
+				content=#{content},
+			</if>
+		</set>
+			where article_id=#{articleId}
+	</update>
+	
+
+  	
+</mapper>

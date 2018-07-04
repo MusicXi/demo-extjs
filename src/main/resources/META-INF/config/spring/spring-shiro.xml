@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" 
+	xmlns:mvc="http://www.springframework.org/schema/mvc" 
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-4.1.xsd
+	http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util-4.1.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-4.1.xsd
+	http://www.springframework.org/schema/mvc  
+	http://www.springframework.org/schema/mvc/spring-mvc-4.1.xsd
+	http://www.springframework.org/schema/tx    
+	http://www.springframework.org/schema/tx/spring-tx-4.1.xsd"> 
+	
+	<!-- 缓存管理器 使用Ehcache实现,Shiro本身不实现Cache,只对Cache进行抽象,先用springCacheManager进行包装
+	<import resource="classpath:META-INF/config/spring/spring-shiro-cache.xml"/>
+	-->
+	
+	<!-- 缓存管理器 Spring缓存管理器的包装类-->
+    <bean id="springCacheManager" class="com.myron.ims.security.cache.SpringCacheManagerWrapper">
+        <property name="cacheManager" ref="ehCacheCacheManager"/>
+    </bean>
+	
+	<!-- 凭证匹配器 -->
+	<bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+		<property name="hashAlgorithmName" value="md5" />
+		<property name="hashIterations" value="1" />
+	</bean>
+	
+	<!-- Realm实现 -->
+    <bean id="userRealm" class="com.myron.ims.security.UserRealm">
+    	<!-- 用户登入服务 -->
+        <property name="userService" ref="userService"/>
+        <!-- 查询权限资源服务 -->
+        <property name="resourceService" ref="resourceService"/>
+        <property name="credentialsMatcher" ref="credentialsMatcher"/>
+        <!-- 是否启用缓存,默认false -->
+        <property name="cachingEnabled" value="true"/>
+        <!-- 启用身份验证缓存 -->
+        <property name="authenticationCachingEnabled" value="false"/>
+        <property name="authenticationCacheName" value="authenticationCache"/>
+        <!-- 启用授权缓存 -->
+        <property name="authorizationCachingEnabled" value="true"/>
+        <property name="authorizationCacheName" value="authorizationCache"/>
+    </bean>
+    	
+	
+    <!-- 定义会话Cookie模板-->
+    <bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+        <constructor-arg value="sid"/>
+        <property name="httpOnly" value="true"/>
+        <!-- Cookie过期时间,单位为秒,-1为浏览器关闭失效 -->
+        <property name="maxAge" value="-1"/>
+    </bean>
+	 
+    <bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+        <constructor-arg value="rememberMe"/>
+        <property name="httpOnly" value="true"/>
+        <property name="maxAge" value="2592000"/>
+    </bean> 
+    
+    <!-- rememberMe管理器 -->
+    <!-- rememberMe cookie加密的密钥 建议每个项目都不一样 默认AES算法 密钥长度（128 256 512 位）-->
+    <bean id="rememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager">
+        <property name="cipherKey"
+                  value="#{T(org.apache.shiro.codec.Base64).decode('4AvVhmFLUs0KTA3Kprsdag==')}"/>
+        <property name="cookie" ref="rememberMeCookie"/>
+    </bean> 
+    
+	<!-- 会话ID生成器 -->
+    <bean id="sessionIdGenerator" class="org.apache.shiro.session.mgt.eis.JavaUuidSessionIdGenerator"/>
+    
+	<!-- 会话DAO 提供缓存功能的(这里用ehcache进行存储) -->
+    <bean id="CacheSessionDAO" class="org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO">
+    	<!-- 使用默认缓存名字 -->
+        <property name="activeSessionsCacheName" value="shiro-activeSessionCache"/>
+        <property name="sessionIdGenerator" ref="sessionIdGenerator"/>
+    </bean>
+	<!-- 会话DAO 用redis进行存储)
+    <bean id="redisSessionDao" class="com.myron.ims.security.session.RedisSessionDao">
+
+        <property name="redisDao" ref="redisDao"/>
+        <property name="sessionIdGenerator" ref="sessionIdGenerator"/>
+    </bean>
+       -->
+    
+	
+    <!-- 会话验证调度器  定期检查会话是否过期 这里使用Quartz会话验证调度器 需要shiro-quartz依赖-->
+    <bean id="sessionValidationScheduler" class="org.apache.shiro.session.mgt.quartz.QuartzSessionValidationScheduler">
+        <property name="sessionValidationInterval" value="3600000"/>
+        <property name="sessionManager" ref="sessionManager"/>
+    </bean>
+	
+	
+    <!-- 会话管理器 -->
+    <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+        <!-- 全局会话超时时间,默认30分钟 -->
+        <property name="globalSessionTimeout" value="1800000"/>
+        <!-- 删除过期会话,默认开启 -->
+        <property name="deleteInvalidSessions" value="true"/>
+        
+        <!-- 会话调度验证 -->
+        <!-- 1.<property name="sessionValidationInterval" value="3600000" />  -->
+        <property name="sessionValidationSchedulerEnabled" value="true"/><!-- 默认true -->
+        <!-- 2.或者使用会话验证调度器-->
+        <property name="sessionValidationScheduler" ref="sessionValidationScheduler"/> 
+       
+		<!-- 用于会话的CURD 可实现会话存储/持久化    
+        <property name="sessionDAO" ref="CacheSessionDAO"/> 
+        <property name="sessionDAO" ref="redisSessionDao"/>--> 
+        
+        <!-- 使用自定义的会话机制  默认true,禁用将不会使用sessionIdCookie,而使用默认servlet的JSESSIONID,覆写url:";JSESSIONID=id"-->
+        <property name="sessionIdCookieEnabled" value="true"/>
+        <property name="sessionIdCookie" ref="sessionIdCookie"/>
+        
+   
+    </bean>
+	<!-- 安全管理器 -->
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="realm" ref="userRealm" />
+		<property name="sessionManager" ref="sessionManager" /> 
+		<property name="cacheManager" ref="springCacheManager" />
+		<property name="rememberMeManager" ref="rememberMeManager"/>
+	</bean>
+	
+	<!-- Shiro的Web过滤器, 即web.xml中shiro的filter对应的bean-->
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<!-- 安全管理器 -->
+		<property name="securityManager" ref="securityManager" />
+		<!-- 默认的登陆访问url 非必须的属性,默认会自动寻找Web工程根目录下的"/login.jsp"页面 (注：用户未登入 UnknownSessionException 将转发到登入页面)--> 
+		<property name="loginUrl" value="/login.jsp" /> 
+		<!-- 登陆成功后跳转的url -->
+        <!-- <property name="successUrl" value="/index" /> -->
+		<property name="unauthorizedUrl" value="/unauthorized.do"/>
+		<!-- 声明自定义的过滤器 -->
+		<property name="filters">
+	        <map>
+	            <entry key="authc">
+	                <bean class="com.myron.ims.security.filter.CaptchaFormAuthenticationFilter"></bean>
+	            </entry>
+	        </map>
+    	</property>
+		<!-- 访问地址的过滤规则,从上至下的优先级,如果有匹配的规则,就会返回,不会再进行匹配 -->
+		<property name="filterChainDefinitions">
+			<value>
+				/images/**=anon
+				/js/**=anon
+			    /toLogin.do =anon
+			    /unauthorized.do=anon
+			    /index_ims.jsp=authc
+			    /product/system/roleManager/**=authc
+			    /news/**=authc
+			    /product/**=user  <!-- 身份认证的和rememberMe都可以访问 -->
+			</value>
+		</property> 
+	</bean>
+	<!-- 保证实现了Shiro内部lifecycle函数的bean执行 -->  
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+	
+	
+</beans>
