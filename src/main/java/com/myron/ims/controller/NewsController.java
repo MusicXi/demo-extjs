@@ -30,6 +30,7 @@ import freemarker.template.TemplateException;
 @RequestMapping("/news")
 public class NewsController {
 	private static final Logger LOGGER=LoggerFactory.getLogger(NewsController.class);
+	public static final String TEMPLATE_DIR = "classpath:templates/freemarker";
 	@Autowired
 	private ArticleService articleService;
 	
@@ -54,7 +55,7 @@ public class NewsController {
             articleData.put("articles", articles);
           
             //从设置的目录中获得模板
-            Template template=FreemarkerUtil.getFreemarkTemplate("newsList.ftl");
+            Template template=FreemarkerUtil.getFreemarkTemplate(TEMPLATE_DIR,"newsList.ftl");
             //合并模板和数据模型
             try {
             	FreemarkerUtil.createHtmlFile(file, template, articleData);
@@ -62,7 +63,7 @@ public class NewsController {
   
               
                 articleData.clear();
-                template=FreemarkerUtil.getFreemarkTemplate("news.ftl");
+                template=FreemarkerUtil.getFreemarkTemplate(TEMPLATE_DIR,"news.ftl");
                 //生成单个新闻文件
                 Writer writer=null;
                 for (Article article : articles) {
@@ -111,7 +112,7 @@ public class NewsController {
             articleData.put("articles", articles);
           
             //从设置的目录中获得模板
-            Template template=FreemarkerUtil.getFreemarkTemplate("newsList.ftl");
+            Template template=FreemarkerUtil.getFreemarkTemplate(TEMPLATE_DIR,"newsList.ftl");
             //合并模板和数据模型
             try {
             	FreemarkerUtil.createHtmlFile(file, template, articleData);
@@ -119,7 +120,7 @@ public class NewsController {
   
               
                 articleData.clear();
-                template=FreemarkerUtil.getFreemarkTemplate("news.ftl");
+                template=FreemarkerUtil.getFreemarkTemplate(TEMPLATE_DIR, "news.ftl");
                 //生成单个新闻文件
                 Writer writer=null;
                 for (Article article : articles) {
