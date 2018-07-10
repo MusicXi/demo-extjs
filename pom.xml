@@ -88,6 +88,7 @@
 		<mybatis-spring.version>1.2.2</mybatis-spring.version>
 		<!-- datasource -->
 		<druid.version>1.0.15</druid.version>
+		<commons-dbcp.versioin>1.4</commons-dbcp.versioin>
 		<!-- jdbc -->
 		<mysql.version>5.1.36</mysql.version>
 		<!-- redis -->
@@ -102,6 +103,7 @@
 
 
 		<!-- shiro libs -->
+		<commons-collections.version>3.2.1</commons-collections.version>
 		<shiro.version>1.2.2</shiro.version>
 		<shiro-ehcache.version>1.2.2</shiro-ehcache.version>
 		<shiro-quartz.version>1.2.2</shiro-quartz.version>
@@ -309,7 +311,7 @@
 			<dependency>
 				<groupId>commons-dbcp</groupId>
 				<artifactId>commons-dbcp</artifactId>
-				<version>1.4</version>
+				<version>${commons-dbcp.versioin}</version>
 			</dependency>
 			<!-- jdbc -->
 			<dependency>
@@ -330,7 +332,7 @@
 			<dependency>
 				<groupId>commons-collections</groupId>
 				<artifactId>commons-collections</artifactId>
-				<version>3.2.1</version>
+				<version>${commons-collections.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.shiro</groupId>
